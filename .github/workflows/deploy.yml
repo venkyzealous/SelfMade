@@ -18,6 +18,9 @@ jobs:
       with:
         node-version: 'v22.16.0' # Use your project's Node.js version
 
+    - name: Install Firebase CLI # <--- ADD THIS STEP
+      run: npm install -g firebase-tools
+
     - name: Install Dependencies
       run: npm ci # Use 'npm ci' for clean installs in CI environments
       working-directory: ./source/selfmade-app
