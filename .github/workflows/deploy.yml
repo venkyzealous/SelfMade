@@ -40,8 +40,8 @@ jobs:
     #     channelId: live # Or 'preview' for preview channels
     #     entryPoint: ./source/selfmade-app
     - name: Deploy to Firebase (Direct CLI Call)
-     env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SELFMADETASKPRO }}
+      env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SELFMADETASKPRO }}
       run: |
         cd ./source/selfmade-app
         firebase deploy --only hosting:selfmadetaskpro --project selfmadetaskpro --token "$FIREBASE_TOKEN"
