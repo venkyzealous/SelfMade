@@ -12,7 +12,7 @@ export const TaskModal = ({ task, onSave, onClose, handleDeleteClick }:
     {task:Task|null, onSave:(task:Task)=>void, onClose:()=>void, handleDeleteClick:(task: Task)=>void}) => {
 
     const [title, setTitle] = useState(task?.title || '');
-    const [tags,setTags] = useState(task?.tags || []);
+    const [tags/*,setTags*/] = useState(task?.tags || []);
     const [description, setDescription] = useState(task?.description || '');
     const [dueDate, setDueDate] = useState(task?.dueDate || '');
     const [priority, setPriority] = useState<Priorities>(task?.priority || 'Medium');
