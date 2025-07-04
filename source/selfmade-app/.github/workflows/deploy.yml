@@ -1,0 +1,34 @@
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - main # Or 'master' or your primary branch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'v22.16.0' # Use your project's Node.js version
+
+    - name: Install Dependencies
+      run: npm ci # Use 'npm ci' for clean installs in CI environments
+
+    - name: Build Project
+      run: npm run build
+
+    - name: Deploy to Firebase
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SELFMADETASKPRO }}' # This will be the name of your Firebase service account secret
+        projectId: selfmadetaskpro
+        target: selfmadetaskpro # Optional: If you have multiple sites, specify the target site name here (from firebase.json)
+        channelId: live # Or 'preview' for preview channels
