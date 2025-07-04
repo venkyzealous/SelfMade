@@ -20,6 +20,7 @@ jobs:
 
     - name: Install Firebase CLI # <--- ADD THIS STEP
       run: npm install -g firebase-tools
+      working-directory: ./source/selfmade-app
 
     - name: Install Dependencies
       run: npm ci # Use 'npm ci' for clean installs in CI environments
@@ -29,12 +30,18 @@ jobs:
       run: npm run build
       working-directory: ./source/selfmade-app
 
-    - name: Deploy to Firebase
-      uses: FirebaseExtended/action-hosting-deploy@v0
-      with:
-        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SELFMADETASKPRO }}' # This will be the name of your Firebase service account secret
-        projectId: selfmadetaskpro
-        target: selfmadetaskpro # Optional: If you have multiple sites, specify the target site name here (from firebase.json)
-        channelId: live # Or 'preview' for preview channels
-        entryPoint: ./source/selfmade-app
+    # - name: Deploy to Firebase
+    #   uses: FirebaseExtended/action-hosting-deploy@v0
+    #   with:
+    #     repoToken: '${{ secrets.GITHUB_TOKEN }}'
+    #     firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SELFMADETASKPRO }}' # This will be the name of your Firebase service account secret
+    #     projectId: selfmadetaskpro
+    #     target: selfmadetaskpro # Optional: If you have multiple sites, specify the target site name here (from firebase.json)
+    #     channelId: live # Or 'preview' for preview channels
+    #     entryPoint: ./source/selfmade-app
+    - name: Deploy to Firebase (Direct CLI Call)
+     env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SELFMADETASKPRO }}
+      run: |
+        cd ./source/selfmade-app
+        firebase deploy --only hosting:selfmadetaskpro --project selfmadetaskpro --token "$FIREBASE_TOKEN"
