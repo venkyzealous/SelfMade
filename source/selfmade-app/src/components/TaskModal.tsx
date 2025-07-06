@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
-import { useState, type Dispatch, type SetStateAction, type FormEvent } from "react";
+import React, { useState, type Dispatch, type SetStateAction, type FormEvent } from "react";
 import { useStore } from '../store/store.ts';
 import type { Task, Priorities, Statuses } from "../types/project";
+import { initialStatus } from "../data/initialData.ts";
 
 
 
@@ -17,14 +18,17 @@ export const TaskModal = ({ task, onSave, onClose, handleDeleteClick }:
     const [dueDate, setDueDate] = useState(task?.dueDate || '');
     const [priority, setPriority] = useState<Priorities>(task?.priority || 'Medium');
     const { getActiveProject } = useStore();
-    const [status, setStatus]:[Statuses, Dispatch<SetStateAction<Statuses>>] = useState(task?.status || getActiveProject()?.statuses[0] || 'To Do');
-    const projectStatuses = getActiveProject()?.statuses || ['To Do', 'In Progress', 'Done'];
+    const [status, setStatus]:[string, Dispatch<SetStateAction<string>>] = useState(task?.status || getActiveProject()?.statuses[0] || initialStatus[0]);
+    const projectStatuses = getActiveProject()?.statuses || initialStatus;
+    const [statuses, setStatuses] = useState<Statuses>(task?.statuses || initialStatus);
+    const [newState,setNewState] = useState<string|null>(null);
+
 
     const handleSave = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!title.trim()) return;
         const id = (task?.id||'');
-        onSave({ title, description, dueDate, priority, status,id: id, tags });
+        onSave({ title, description, dueDate, priority, status,id: id, tags,statuses });
         onClose();
     };
 
@@ -32,6 +36,12 @@ export const TaskModal = ({ task, onSave, onClose, handleDeleteClick }:
         e.preventDefault();
         handleDeleteClick(task as Task);
         onClose();
+    }
+
+    const addStatus = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        newState && setStatuses(task?.statuses?[...task.statuses,newState]:[newState]);
+        setNewState(null);
     }
 
     return (
@@ -95,10 +105,25 @@ export const TaskModal = ({ task, onSave, onClose, handleDeleteClick }:
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-400 mb-1">Status</label>
-                                <select value={status} onChange={e => setStatus(e.target.value as Statuses)} className="w-full bg-slate-800 border border-slate-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition">
-                                    {projectStatuses.map(s => <option key={s}>{s}</option>)}
+                                <label className="block text-sm font-medium text-slate-400 mb-1">Task Status</label>
+                                <select value={status} onChange={e => setStatus(e.target.value as string)} className="w-full bg-slate-800 border border-slate-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400 transition">
+                                    {statuses.map(s => <option key={s}>{s}</option>)}
                                 </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-400 mb-1">Task Steps</label>
+                                <ul>
+                                    {statuses.map(s => s === status? <li key={s} ><b>{s}</b></li>: <li key={s}>{s}</li>)}
+                                </ul>
+                                <span><input 
+                                type="text" 
+                                placeholder="New task step name .." 
+                                onChange={e => setNewState(e.target.value)} 
+                                value= {newState || ''}
+                                className="w-full bg-slate-800 border border-slate-700 rounded-md px-4 py-1/2 focus:outline-none py-border text-lg focus:ring-2 focus:ring-cyan-400 transition"
+                                ></input>
+                                <button type="button" onClick={addStatus}>Add Status</button>
+                                 </span>
                             </div>
                         </div>
                     </div>

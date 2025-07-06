@@ -10,9 +10,9 @@ export const KanbanBoard = ({  tasks,
                         onTaskMove 
                       }:{
                         tasks:Task[], 
-                        statuses:Statuses[], 
+                        statuses:Statuses, 
                         onTaskClick:(task:Task)=>void,
-                        onTaskMove:(taskId:string, newStatus:Statuses) => void
+                        onTaskMove:(taskId:string, newStatus:string) => void
                       }) => {
 
     const onDragEnd = (result: DropResult) => {
@@ -21,7 +21,7 @@ export const KanbanBoard = ({  tasks,
         if (destination.droppableId === source.droppableId && destination.index === source.index) {
             return;
         }
-        onTaskMove(draggableId, destination.droppableId as Statuses);
+        onTaskMove(draggableId, destination.droppableId);
     };
 
     return (

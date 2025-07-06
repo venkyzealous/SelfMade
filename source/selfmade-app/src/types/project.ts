@@ -3,7 +3,7 @@ export interface Project {
   name: string;
   description?: string|null;
   tasks: Task[];
-  statuses: Statuses[];
+  statuses: Statuses;
 }
 
 export interface Task {
@@ -13,8 +13,8 @@ export interface Task {
   tags?: string[];
   description?: string;
   title: string;
-  status: Statuses;
-  
+  status: string;
+  statuses: Statuses;
   // projectId: string;
   // parentId: string | null;
 }
@@ -44,19 +44,13 @@ export const View = {
 
 export type View = typeof View[keyof typeof View];
 
-export const Statuses = {
-  ToDo:'To Do',
-  InProgress:'In Progress',
-  Done:'Done'
-} as const;
-
-export type Statuses = typeof Statuses[keyof typeof Statuses];
-
+export type Statuses = string[];
 
 export const Priorities = {
   Low:'Low',
   Medium:'Medium',
-  High:'High'
+  High:'High',
+  Critical:'Critical'
 } as const;
 
 export type Priorities = typeof Priorities[keyof typeof Priorities];

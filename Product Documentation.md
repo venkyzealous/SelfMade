@@ -69,20 +69,31 @@ The development will be broken down into the following Minimum Viable Product (M
 
 ## 5.0 Design & Theme
 
-The visual design of SelfMade directly supports its core philosophy of being a simple, uncluttered, and powerful tool for individuals. The aesthetic will be minimalist, prioritizing clarity, readability, and a calm user experience.
+The visual design of SelfMade directly supports its core philosophy of being an engaging and powerful tool for individuals. The aesthetic will be modern, prioritizing clarity, visual impact, and a focused user experience reminiscent of high-performance interfaces.
 
 ### 5.1 Color Palette
 
-The color theme is built on a foundation of white space, using color intentionally and sparingly to guide the user and draw attention only to what is necessary.
+The color theme is built on a foundation of a powerful gaming controls type default interface to motivate individual users, using color intentionally to guide the user and draw attention only to what is necessary. A future feature could be user-selectable themes.
 
-* **Dominant Color: White (`#FFFFFF`)**
-    The vast majority of the user interface—backgrounds, content areas, and panels—will be white. This creates a bright, open, and distraction-free environment that allows the user's content to be the primary focus.
+* **Dominant Color**: _Dark Blue/Black_ (`#1A1A2E` or similar dark tone)
+The vast majority of the user interface—backgrounds, content areas, and panels—will be a dark blue/black. This creates a focused, immersive, and visually impactful environment.
 
-* **Primary Accent: Blue**
-    A clear, accessible blue will be used for primary actions, interactive elements, links, and selections. This color signifies calm productivity and indicates where a user can interact with the system.
+* **Primary Accent**: _Blue_ (`#007bff` or similar vibrant blue)
+A clear, accessible blue will be used for primary actions, interactive elements, links, and selections. This color signifies calm productivity and indicates where a user can interact with the system. It is also used for text elements in active states or for highlight.
 
-* **Secondary Accent: Red**
-    A sharp, distinct red will be used with restraint for high-importance signals. Its use cases include notifications, urgent priority markers, overdue item indicators, and confirmation for destructive actions (like deleting a task). This ensures that when the user sees red, they know it requires their attention.
+* **Secondary Accent**: _Red_ (`#dc3545` or similar distinct red)
+A sharp, distinct red will be used with restraint for high-importance signals. Its use cases include urgent priority markers, overdue item indicators, and confirmation for destructive actions (like deleting a task). This ensures that when the user sees red, they know it requires their attention.
+
+* **Tertiary Accent**: _Light Grey/White_ (`#F0F0F0` or similar light tone)
+Used for primary text content, icons, and non-interactive elements against the dark background, ensuring readability and visual balance.
+
+* **Priority Indicators** (Specific to UI):
+
+    * High Priority: _Red_ (as per secondary accent).
+
+    * Medium Priority: _Orange/Amber_ (e.g., `#FFA500` or `#FFC107`).
+
+    * Low Priority: _Light Blue/Cyan_ (e.g., `#00FFFF` or `#17A2B8`).
 
 ## 6.0 Core Data Objects & Hierarchy
 
@@ -90,7 +101,7 @@ The data architecture of SelfMade is designed to be simple, intuitive, and flexi
 
 ### 6.1 Project
 
-The **Project** is the highest-level organizational container in SelfMade. It serves as a dedicated workspace to group related tasks. Every task must belong to a Project.
+The **Project** is the highest-level organizational container in SelfMade. It serves as a dedicated workspace to group related tasks. Task does not necessarily have to belong to a Project. User shoud be quickly able to record thoughts as task and manage later. In such case, selfmade automatically attaches task to a default project call `All` which is always visible to see all tasks in system.
 
 * **Purpose:** To separate different areas of work or life. For example, "Personal Goals," "Novel Writing," or "Client X Website."
 * **Properties:**
@@ -195,3 +206,11 @@ The Calendar View provides a time-centric visualization of tasks, helping users 
     * Any task with an `EndDate` will appear on the calendar on its due date.
     * Any task with both a `StartDate` and `EndDate` will be displayed as an event block spanning those dates.
 * **Purpose:** This view is ideal for weekly planning, visualizing workload over time, and ensuring that deadlines are not missed. It offers a crucial temporal context that a simple list cannot provide.
+
+### 10.0 Data Export & Import
+
+The app focusses on empowering user to own their data by allowing exporting importing as needed. 
+
+* **Data Management:** Allows exporting and importing of all data as json file to client device
+* **Local Storage:** App uses browser local storage to store and retreive data and avoid storing anything server
+

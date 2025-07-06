@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import type { ProjectStore, Project, Task } from "../types/project";
 import {View} from '../types/project.ts';
+import { initialStatus } from "../data/initialData.ts";
 
 // Using Zustand as recommended for a lightweight, powerful state management solution.
 export const useStore = create<ProjectStore>()((set, get) => ({
@@ -22,7 +23,7 @@ export const useStore = create<ProjectStore>()((set, get) => ({
         // Create a default project if no state exists
         const defaultProjectId = `proj_${Date.now()}`;
         set({
-            projects: [{ id: defaultProjectId, name: 'My First Project', tasks: [], statuses: ['To Do', 'In Progress', 'Done'] }],
+            projects: [{ id: defaultProjectId, name: 'All', tasks: [], statuses: initialStatus }],
             activeProjectId: defaultProjectId,
         });
       }
@@ -31,7 +32,7 @@ export const useStore = create<ProjectStore>()((set, get) => ({
       // Handle potential errors if localStorage is blocked or data is corrupt
       const defaultProjectId = `proj_${Date.now()}`;
         set({
-            projects: [{ id: defaultProjectId, name: 'My First Project', tasks: [], statuses: ['To Do', 'In Progress', 'Done'] }],
+            projects: [{ id: defaultProjectId, name: 'All', tasks: [], statuses: initialStatus }],
             activeProjectId: defaultProjectId,
         });
     }
@@ -54,7 +55,7 @@ export const useStore = create<ProjectStore>()((set, get) => ({
       id: `proj_${Date.now()}`, 
       name, 
       tasks: [],
-      statuses: ['To Do', 'In Progress', 'Done'] 
+      statuses: initialStatus 
     };
     set(state => ({ projects: [...state.projects, newProject] }));
     get().setActiveProject(newProject.id);

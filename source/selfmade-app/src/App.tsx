@@ -51,7 +51,7 @@ export default function App() {
         }
     };
 
-    const handleTaskMove = (taskId: string, newStatus: Statuses) => {
+    const handleTaskMove = (taskId: string, newStatus: string) => {
         updateTask({ id: taskId,  status: newStatus });
     };
 
