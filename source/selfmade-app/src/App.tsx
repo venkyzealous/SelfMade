@@ -1,13 +1,12 @@
 import { useState, useEffect, type Dispatch, type SetStateAction } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Plus, List, LayoutGrid } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import './App.css';
-import type { Task, Statuses } from './types/project.ts';
+import type { Task } from './types/project.ts';
 import { useStore } from './store/store.ts';
 import { GlowIcon } from './components/Helper.tsx';
 import { TaskModal } from './components/TaskModal.tsx';
 import { ConfirmationModal } from './components/ConfirmationModal.tsx';
-import { KanbanBoard } from './components/KanbanBoard.tsx';
 import { ListView } from './components/ListView.tsx';
 import { Sidebar } from './components/Sidebar.tsx';
 
@@ -15,7 +14,7 @@ import { Sidebar } from './components/Sidebar.tsx';
 
 // Main App component
 export default function App() {
-    const { activeView, setActiveView, addTask, updateTask, deleteTask, getActiveProject, hydrate, saveState } = useStore();
+    const {addTask, updateTask, deleteTask, getActiveProject, hydrate, saveState } = useStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingTask, setEditingTask]:[editingtask:Task|null, setEditingTask: Dispatch<SetStateAction<Task|null>>] = useState<Task | null>(null);
     const [taskToDelete, setTaskToDelete] = useState(null as Task | null);
@@ -49,10 +48,6 @@ export default function App() {
         } else {
             addTask(taskData);
         }
-    };
-
-    const handleTaskMove = (taskId: string, newStatus: string) => {
-        updateTask({ id: taskId,  status: newStatus });
     };
 
     const handleDeleteClick = (task: Task) => {
@@ -108,26 +103,20 @@ export default function App() {
                         <h2 className="text-4xl font-bold text-slate-100 tracking-wide">{activeProject.name}</h2>
                         <p className="text-slate-400">Manage your tasks and conquer your goals.</p>
                     </div>
-                    <div className="flex items-center gap-2 bg-slate-800/50 border border-slate-700 p-1 rounded-lg">
-                        <button onClick={() => setActiveView('board')} className={`p-2 rounded-md ${activeView === 'board' ? 'bg-cyan-500/20 text-cyan-300' : 'text-slate-400 hover:text-white'}`}><LayoutGrid size={20}/></button>
-                        <button onClick={() => setActiveView('list')} className={`p-2 rounded-md ${activeView === 'list' ? 'bg-cyan-500/20 text-cyan-300' : 'text-slate-400 hover:text-white'}`}><List size={20}/></button>
-                    </div>
                 </header>
 
                 <div className="flex-grow">
                     <AnimatePresence mode="wait">
                         <motion.div
-                            key={activeView}
+                            key={'list'}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.2 }}
                         >
-                            {activeView === 'board' ? (
-                                <KanbanBoard tasks={activeProject.tasks} statuses={activeProject.statuses} onTaskClick={openModal} onTaskMove={handleTaskMove} />
-                            ) : (
-                                <ListView tasks={activeProject.tasks} onTaskClick={openModal} />
-                            )}
+                            
+                        <ListView tasks={activeProject.tasks} onTaskClick={openModal} />
+                           
                         </motion.div>
                     </AnimatePresence>
                 </div>

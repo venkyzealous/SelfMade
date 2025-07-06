@@ -19,7 +19,7 @@ export const TaskModal = ({ task, onSave, onClose, handleDeleteClick }:
     const [priority, setPriority] = useState<Priorities>(task?.priority || 'Medium');
     const { getActiveProject } = useStore();
     const [status, setStatus]:[string, Dispatch<SetStateAction<string>>] = useState(task?.status || getActiveProject()?.statuses[0] || initialStatus[0]);
-    const projectStatuses = getActiveProject()?.statuses || initialStatus;
+    //const projectStatuses = getActiveProject()?.statuses || initialStatus;
     const [statuses, setStatuses] = useState<Statuses>(task?.statuses || initialStatus);
     const [newState,setNewState] = useState<string|null>(null);
 
